@@ -1,0 +1,16 @@
+@(schemas: List[json_schema.JsonSchema])
+
+@import org.json4s.jackson._
+
+class JsonSchema {
+
+  constructor(
+    public id: string,
+    public schema: any
+  ) {}
+
+}
+
+@for(schema <- schemas) {
+export const @{schema.id.replace('.', '_')} = new JsonSchema('@schema.id', @{prettyJson(schema.schema)})
+}
