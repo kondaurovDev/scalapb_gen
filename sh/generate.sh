@@ -11,4 +11,4 @@ echo "out dir: ${OUT_DIR}"
 
 files=`find ${PROTO_DIR} -name "*.proto" | paste -sd " " -`
 
-/bin/bash /root/scalapbc/bin/scalapbc -v360 -I=${PROTO_DIR} --json-schema_out=${SCALA_OUT} ${files}
+/bin/bash /app/bin/generator -v360 -I=${PROTO_DIR} --json-schema_out=${OUT_DIR} ${files}

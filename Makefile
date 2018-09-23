@@ -6,3 +6,6 @@ build_deps:
 
 build:
 	docker build -t ${image_name} -f Dockerfile .
+
+ssh:
+	docker run -it --rm --entrypoint=/bin/sh ${image_name}

@@ -26,9 +26,10 @@ class JsonSchemaBuilderTest extends FlatSpec with Matchers {
 
   "Hero" should "get required fields" in {
 
-    builder.getRequiredFields(heroMsg) shouldBe {
-      ("required" -> List("name", "power")) ~ JObject()
-    }
+    val actual = builder.getRequiredFields(heroMsg)
+    val expected = ("required" -> List("name", "power", "weapon")) ~ JObject()
+
+    prettyJson(actual) shouldBe prettyJson(expected)
 
   }
 
@@ -41,6 +42,7 @@ class JsonSchemaBuilderTest extends FlatSpec with Matchers {
     val actual = builder.getObjectSchema(heroMsg)
 
     val expected = {
+      ("$id" -> "example.hero.Hero") ~
       ("type" -> "object") ~
       ("properties" -> (
         ("name" -> ("type" -> "string")) ~
@@ -49,7 +51,6 @@ class JsonSchemaBuilderTest extends FlatSpec with Matchers {
           ("type" -> "string") ~
           ("enum" -> List("HIGH_IQ", "VERY_FAST", "VERY_STRONG"))
         )) ~
-
         ("hobby" -> (
           ("type" -> "array") ~
           ("items" -> (

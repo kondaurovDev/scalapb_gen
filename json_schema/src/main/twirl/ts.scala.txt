@@ -2,15 +2,14 @@
 
 @import org.json4s.jackson._
 
-class JsonSchema {
-
-  constructor(
-    public id: string,
-    public schema: any
-  ) {}
-
+interface JsonSchema {
+ id: string;
+ schema: any;
 }
 
 @for(schema <- schemas) {
-export const @{schema.id.replace('.', '_')} = new JsonSchema('@schema.id', @{prettyJson(schema.schema)})
+export const @{schema.id.replace('.', '_')} = {
+	id: '@schema.id',
+	schema: @{prettyJson(schema.schema).replace("\"", "'")}
+};
 }
