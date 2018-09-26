@@ -1,3 +1,10 @@
+lazy val root = (project in file("."))
+  .aggregate(
+    json_schema,
+    generator,
+    test_protos
+  )
+
 lazy val json_schema = (project in file("json_schema"))
   .enablePlugins(SbtTwirl)
   .settings(
@@ -16,12 +23,6 @@ lazy val generator = (project in file("generator"))
       "com.github.os72" % "protoc-jar" % "3.6.0"
     )
   ).dependsOn(json_schema)
-
-lazy val root = (project in file("."))
-  .aggregate(
-    json_schema,
-    generator
-  )
 
 lazy val test_protos = (project in file("test_protos"))
   .settings(

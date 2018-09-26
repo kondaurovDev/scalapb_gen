@@ -2,14 +2,15 @@ package json_schema
 
 import com.google.protobuf.Descriptors._
 import com.google.protobuf.Descriptors.FieldDescriptor._
-import com.google.protobuf.compiler.PluginProtos.CodeGeneratorResponse
 import org.json4s.JValue
 import org.json4s.JsonAST.{JArray, JObject}
 import org.json4s.JsonDSL._
+import org.json4s.jackson.JsonMethods._
 import scalapb.compiler._
 
 import scala.collection.JavaConverters._
-import org.json4s.jackson._
+
+import Models._
 
 class JsonSchemaBuilder(
   implicits: DescriptorImplicits
@@ -17,16 +18,25 @@ class JsonSchemaBuilder(
 
   import implicits._
 
-  def joinAllSchemas(fileDescriptorList: List[FileDescriptor]): CodeGeneratorResponse.File = {
-
-    val resp = CodeGeneratorResponse.File.newBuilder()
+  def getScalaFile(fileDescriptorList: List[FileDescriptor]): GeneratedFile = {
 
     val all = fileDescriptorList.flatMap(getAllSchemas)
 
-    resp.setContent(txt.ts(all).body)
-    resp.setName("jsonSchemas.ts")
+    GeneratedFile(
+      name = "JsonSchema.scala",
+      content = txt.jackson_scala(all).body
+    )
 
-    resp.build()
+  }
+
+  def getJsonFile(fileDescriptorList: List[FileDescriptor]): GeneratedFile = {
+
+    val all = fileDescriptorList.flatMap(getAllSchemas)
+
+    GeneratedFile(
+      name = "JsonSchema.js",
+      content = pretty(all.map(_.schema))
+    )
 
   }
 
@@ -45,7 +55,7 @@ class JsonSchemaBuilder(
   }
 
   def getRef(d: Descriptor): JValue = {
-    "$ref" -> s"#/definitions/${getDefId(d)}"
+    "$ref" -> s"#${getDefId(d)}"
   }
 
   def getObjectSchema(d: Descriptor): JsonSchema = {

@@ -1,4 +1,4 @@
-@(schemas: List[json_schema.JsonSchema])
+@(schemas: List[json_schema.Models.JsonSchema])
 
 @import org.json4s.jackson._
 

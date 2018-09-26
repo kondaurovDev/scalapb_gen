@@ -9,6 +9,8 @@ import scalapb.options.compiler.Scalapb
 import scala.util.Try
 import scala.collection.JavaConverters._
 
+import Implicits._
+
 class JsonSchemaCodeGenerator extends protocbridge.ProtocCodeGenerator {
 
   override def run(req: Array[Byte]): Array[Byte] = {
@@ -38,9 +40,8 @@ class JsonSchemaCodeGenerator extends protocbridge.ProtocCodeGenerator {
 
       val allFiles = request.getFileToGenerateList.asScala.map(filesByName).toList
 
-      val resp = generator.joinAllSchemas(allFiles)
-
-      b.addFile(resp)
+      b.addFile(generator.getJsonFile(allFiles).toCodeGeneratorResponseFile)
+      b.addFile(generator.getScalaFile(allFiles).toCodeGeneratorResponseFile)
 
     }.failed.foreach {
       case e: GeneratorException =>

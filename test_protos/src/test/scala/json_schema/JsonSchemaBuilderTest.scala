@@ -59,7 +59,7 @@ class JsonSchemaBuilderTest extends FlatSpec with Matchers {
           ))
         )) ~
         ("weapon" -> (
-          "$ref" -> "#/definitions/example.weapon.Weapon"
+          "$ref" -> "#example.weapon.Weapon"
         ))
       )) ~
       ("required" -> List("name", "power", "weapon"))
@@ -77,8 +77,8 @@ class JsonSchemaBuilderTest extends FlatSpec with Matchers {
       {
         ("$id" -> "example.weapon.Weapon") ~
         ("oneOf" -> List(
-          "$ref" -> "#/definitions/example.weapon.Knife",
-          "$ref" -> "#/definitions/example.weapon.Ax"
+          "$ref" -> "#example.weapon.Knife",
+          "$ref" -> "#example.weapon.Ax"
         ))
       },
       {
@@ -120,5 +120,11 @@ class JsonSchemaBuilderTest extends FlatSpec with Matchers {
     prettyJson(actual) shouldBe prettyJson(expected)
 
   }
+
+//  "generate file" should "work" in {
+//
+//
+//
+//  }
 
 }

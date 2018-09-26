@@ -6,7 +6,7 @@ ADD . .
 
 MAINTAINER Kondaurov Alexander <kondaurov.dev@gmail.com>
 
-RUN sbt generator/stage
+RUN sbt test generator/stage
 
 FROM kondaurov/jre-alpine:8 as generator
 
