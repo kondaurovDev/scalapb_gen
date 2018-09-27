@@ -1,0 +1,18 @@
+@import json_schema.Models.JsonSchema
+
+@(schemas: List[JsonSchema])
+
+@getName(schema: JsonSchema) = @{
+	schema.id.replace('.', '_')
+}
+
+
+package jschema
+
+object JsonSchemaId {
+
+@for(schema <- schemas) {
+	val @{getName(schema)} = "@schema.id";
+}
+
+}

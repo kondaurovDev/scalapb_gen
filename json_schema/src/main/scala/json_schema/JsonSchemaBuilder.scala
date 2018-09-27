@@ -24,7 +24,7 @@ class JsonSchemaBuilder(
 
     GeneratedFile(
       name = "JsonSchema.scala",
-      content = txt.jackson_scala(all).body
+      content = txt.jshema_scala(all).body
     )
 
   }
