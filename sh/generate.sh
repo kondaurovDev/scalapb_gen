@@ -11,4 +11,4 @@ echo "out dir: ${OUT_DIR}"
 
 files=`find ${PROTO_DIR} -name "*.proto" | paste -sd " " -`
 
-/bin/bash /app/bin/generator -I=${PROTO_DIR} --json-schema_out=${OUT_DIR} ${files}
+/bin/bash /home/bill/app/bin/generator -I=${PROTO_DIR} --json-schema_out=${OUT_DIR} ${files}

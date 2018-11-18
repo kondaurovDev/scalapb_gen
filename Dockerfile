@@ -1,4 +1,4 @@
-FROM kondaurov/scalapb_gen:deps as builder
+FROM kondaurov/sbt-alpine:jdk8sbt1.2.1_compiled as builder
 
 WORKDIR /project
 
@@ -6,19 +6,22 @@ ADD . .
 
 ENV protocVersion=3.6.1
 
-#RUN \
-# wget https://github.com/protocolbuffers/protobuf/releases/download/v${protocVersion}/protoc-${protocVersion}-linux-x86_64.zip && \
-# unzip *.zip && mv protoc* /protoc
-
 MAINTAINER Kondaurov Alexander <kondaurov.dev@gmail.com>
 
 RUN sbt generator/stage
 
 FROM kondaurov/jre-alpine:8 as generator
 
-ADD sh /scripts
+RUN \
+    addgroup -g 1000 bill && \
+    adduser -u 1000 -G bill -D bill
 
-COPY --from=builder /project/generator/target/universal/stage /app
-COPY --from=builder /project/generator/target/universal/stage /bin/protoc
+USER bill
 
-ENTRYPOINT ["/bin/sh", "/scripts/generate.sh"]
+WORKDIR /home/bill
+
+ADD --chown=bill:bill  sh scripts
+
+COPY --chown=bill:bill --from=builder /project/generator/target/universal/stage app
+
+ENTRYPOINT ["/bin/sh", "/home/bill/scripts/generate.sh"]
