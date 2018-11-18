@@ -1,3 +1,5 @@
+version in Global := "0.0.0"
+
 lazy val root = (project in file("."))
   .aggregate(
     json_schema,
@@ -18,6 +20,7 @@ lazy val json_schema = (project in file("json_schema"))
 lazy val generator = (project in file("generator"))
   .enablePlugins(JavaAppPackaging)
   .settings(
+    topLevelDirectory := Some("./"),
     name := "generator",
     libraryDependencies ++= Seq(
       "com.github.os72" % "protoc-jar" % "3.6.0"

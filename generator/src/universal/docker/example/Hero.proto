@@ -1,0 +1,27 @@
+syntax = "proto2";
+
+package example.hero;
+
+import "example/Weapon.proto";
+
+enum Power {
+    HIGH_IQ = 1;
+    VERY_FAST = 2;
+    VERY_STRONG = 3;
+}
+
+enum Hobby {
+    FOOTBALL = 1;
+    CHESS = 2;
+    SKI = 3;
+}
+
+message Hero {
+
+    required string name = 1;
+    optional bool active = 2;
+    required Power power = 3;
+    repeated Hobby hobby = 4;
+    required weapon.Weapon weapon = 5;
+
+}

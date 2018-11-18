@@ -1,0 +1,23 @@
+syntax = "proto2";
+
+package example.weapon;
+
+message Weapon {
+    oneof sealed_value {
+        Knife knife = 1;
+        Ax ax = 2;
+    }
+}
+
+message Knife {
+    required int32 size = 1;
+    required string color = 2;
+}
+
+message Ax {
+    required float weight_kilo = 1;
+}
+
+message Gun {
+    required int32 magazine_size = 1;
+}
